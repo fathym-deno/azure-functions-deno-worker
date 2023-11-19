@@ -34,6 +34,7 @@ if (parsedArgs._.length >= 1 && parsedArgs._[0] === 'init') {
   await updateHostJson(platform, bundleStyle);
   await generateFunctions();
   await generateExecutable(platform);
+  Deno.exit(0);
 } else if (parsedArgs._[0] === 'publish' && parsedArgs._.length === 2) {
   const bundleStyle =
     parsedArgs['bundle-style'] || // use specified bundle style
