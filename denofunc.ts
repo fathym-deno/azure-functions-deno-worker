@@ -134,11 +134,11 @@ async function generateExecutable(platformArg?: string, quiet = false) {
     'deno',
     'compile',
     '--unstable',
-    quiet ? '-q' : '',
     ...(semver.satisfies(Deno.version.deno, '>=1.7.1 <1.10.0')
       ? ['--lite']
       : []), // `--lite` option is implemented only between v1.7.1 and v1.9.x
     ...commonDenoOptions.concat(additionalDenoOptions),
+    quiet ? '-q' : '',
     '--output',
     `./bin/${platform}/${baseExecutableFileName}`,
     ...(['windows', 'linux'].includes(platform)
