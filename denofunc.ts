@@ -33,7 +33,7 @@ if (parsedArgs._.length >= 1 && parsedArgs._[0] === 'init') {
 
   await updateHostJson(platform, bundleStyle);
   await generateFunctions();
-  await generateExecutable(platform);
+  await generateExecutable(platform, true);
   Deno.exit(0);
 } else if (parsedArgs._[0] === 'publish' && parsedArgs._.length === 2) {
   const bundleStyle =
@@ -121,7 +121,7 @@ async function listFiles(dir: string) {
   return files;
 }
 
-async function generateExecutable(platformArg?: string) {
+async function generateExecutable(platformArg?: string, quiet = false) {
   try {
     await Deno.remove('./bin', { recursive: true });
     await Deno.remove(`./${bundleFileName}`);
@@ -134,6 +134,7 @@ async function generateExecutable(platformArg?: string) {
     'deno',
     'compile',
     '--unstable',
+    quiet ? '-q' : '',
     ...(semver.satisfies(Deno.version.deno, '>=1.7.1 <1.10.0')
       ? ['--lite']
       : []), // `--lite` option is implemented only between v1.7.1 and v1.9.x
